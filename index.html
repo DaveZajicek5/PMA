@@ -11,7 +11,7 @@ header{background:linear-gradient(125deg,#12263e,#265982);color:white;padding:56
 .steps li{flex:1;min-width:150px;background:#f2f6fb;border-radius:12px;padding:14px;font-size:.94rem;line-height:1.4}
 .steps b{display:block;color:#224d77;margin-bottom:5px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0}
 button,.link{border:0;border-radius:11px;padding:15px 20px;font:inherit;font-weight:650;cursor:pointer;text-decoration:none;display:inline-flex;justify-content:center;align-items:center}
-button{background:#1769aa;color:white;flex:1;min-width:220px}button:hover{background:#105489}.link{background:#eaf1f8;color:#174b76}button:focus-visible,.link:focus-visible{outline:3px solid #f0ae30;outline-offset:2px}
+button{background:#1769aa;color:white;flex:1;min-width:220px}.direct{background:#1769aa;color:white;flex:1;min-width:220px}.direct:hover{background:#105489}.hint{font-size:.9rem;line-height:1.5;color:#637589}button:hover{background:#105489}.link{background:#eaf1f8;color:#174b76}button:focus-visible,.link:focus-visible{outline:3px solid #f0ae30;outline-offset:2px}
 #status{min-height:1.5em;color:#1c6b40;font-size:.94rem}details{border-top:1px solid #e5ebf1;padding-top:20px}summary{cursor:pointer;font-weight:650;color:#244966}
 pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f6f8fb;border:1px solid #e4eaf1;border-radius:12px;padding:18px;font:inherit;font-size:.88rem;line-height:1.6;max-height:440px;overflow:auto}
 small{display:block;color:#68798b;line-height:1.5;margin-top:18px}footer{text-align:center;color:#738296;padding:0 20px 40px;font-size:.88rem}
@@ -19,7 +19,8 @@ small{display:block;color:#68798b;line-height:1.5;margin-top:18px}footer{text-al
 </style></head><body>
 <header><div class="head"><div class="eyebrow">Praktický pomocník pro manažery</div><h1>AI sparring partner<br>pro nastavování cílů</h1><p>Vylaďte pracovní nebo rozvojový cíl za přibližně 10 minut s pomocí své oblíbené AI.</p></div></header>
 <main><section class="card"><ol class="steps"><li><b>1. Zkopírujte prompt</b>Stiskněte modré tlačítko níže.</li><li><b>2. Otevřete svou AI</b>Například ChatGPT, Copilot nebo Gemini.</li><li><b>3. Vložte a odešlete</b>Poté napište svůj návrh cíle.</li></ol>
-<div class="actions"><button id="copy" type="button">📋 Zkopírovat celý prompt</button><a class="link" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">Otevřít ChatGPT ↗</a><a class="link" href="https://copilot.microsoft.com/" target="_blank" rel="noopener noreferrer">Otevřít Copilot ↗</a><a class="link" href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer">Otevřít Gemini ↗</a></div>
+<div class="actions"><a class="link direct" id="chatgpt-link" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">✨ Spustit v ChatGPT ↗</a><a class="link direct" id="claude-link" href="https://claude.ai/new" target="_blank" rel="noopener noreferrer">✨ Spustit v Claude ↗</a><button id="copy" type="button">📋 Zkopírovat celý prompt</button><a class="link" href="https://copilot.microsoft.com/" target="_blank" rel="noopener noreferrer">Otevřít Copilot ↗</a><a class="link" href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer">Otevřít Gemini ↗</a><a class="link" href="https://www.perplexity.ai/" target="_blank" rel="noopener noreferrer">Otevřít Perplexity ↗</a></div>
+<p class="hint">U ChatGPT a Claude se pokusíme předvyplnit celý prompt do nového chatu; potom jej případně stačí odeslat. Záleží na verzi aplikace a prohlížeči. U ostatních AI nejdřív použijte „Zkopírovat celý prompt“ a pak jej vložte do aplikace.</p>
 <p id="status" role="status" aria-live="polite"></p>
 <details><summary>Zobrazit celý prompt</summary><pre id="prompt">AI SPARRING PARTNER – PRŮVODCE NASTAVOVÁNÍM CÍLŮ
 
@@ -142,6 +143,9 @@ Vlož svůj návrh cíle. Pomohu ti ho zpřesnit, nastavit měření a připravi
 <small>Stránka nic neodesílá ani neukládá. Text promptu se zkopíruje do schránky vašeho zařízení. Do AI nevkládejte důvěrné osobní či firemní údaje, pokud to firemní pravidla nepovolují.</small>
 </section></main><footer>AI sparring partner · Nastavování cílů</footer>
 <script>
+const fullPrompt=document.getElementById('prompt').textContent;
+document.getElementById('chatgpt-link').href='https://chatgpt.com/?q='+encodeURIComponent(fullPrompt);
+document.getElementById('claude-link').href='https://claude.ai/new?q='+encodeURIComponent(fullPrompt);
 document.getElementById('copy').addEventListener('click',async()=>{
 const value=document.getElementById('prompt').textContent;const status=document.getElementById('status');
 try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(value)}else{const t=document.createElement('textarea');t.value=value;t.style.position='fixed';t.style.opacity='0';document.body.appendChild(t);t.select();if(!document.execCommand('copy'))throw Error('copy unavailable');t.remove()}status.textContent='✓ Celý prompt je zkopírovaný. Otevřete AI a vložte jej do chatu.'}
